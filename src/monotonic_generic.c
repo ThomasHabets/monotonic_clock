@@ -8,10 +8,7 @@
 #include "config.h"
 #endif
 
-#include<stdio.h>
-#include<string.h>
-#include<errno.h>
-#include<sys/time.h>
+#include"monotonic_clock.h"
 
 /**
  *
@@ -19,11 +16,7 @@
 double
 clock_get_dbl()
 {
-        struct timeval tv;
-        if (0 == gettimeofday(&tv, NULL)) {
-                return tv.tv_sec + tv.tv_usec / 1000000.0;
-        }
-        return (double)time(0);
+        return clock_get_dbl_fallback();
 }
 
 /* ---- Emacs Variables ----

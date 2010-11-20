@@ -11,6 +11,7 @@ extern "C" {
 #endif
 
 double clock_get_dbl();
+double clock_get_dbl_fallback();
 
 #ifdef __cplusplus
 }

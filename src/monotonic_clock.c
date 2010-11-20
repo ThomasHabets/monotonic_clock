@@ -14,6 +14,8 @@
 #include<string.h>
 #include<sys/time.h>
 
+#include"monotonic_clock.h"
+
 /**
  *
  */
@@ -21,26 +23,19 @@ double
 clock_get_dbl()
 {
         struct timespec ts;
-        struct timeval tv;
 
         /* try clock_gettime() */
         if (0 == clock_gettime(CLOCK_MONOTONIC, &ts)) {
                 return ts.tv_sec + ts.tv_nsec / 1000000000.0;
         }
-#if 0
-        fprintf(stderr, "%s: clock_gettime(CLOCK_MONOTONIC,): %s\n",
-                argv0, strerror(errno));
-#endif
 
-        /* try gettimeofday() */
-        if (0 == gettimeofday(&tv, NULL)) {
-                return tv.tv_sec + tv.tv_usec / 1000000.0;
+        if (/* DEBUG */ 0) {
+                fprintf(stderr,
+                        "clock_gettime(CLOCK_MONOTONIC,): %s\n",
+                        strerror(errno));
         }
-#if 0
-        fprintf(stderr, "%s: gettimeofday(): %s\n", argv0, strerror(errno));
-#endif
 
-        return (double)time(0);
+        return clock_get_dbl_fallback();
 }
 
 /* ---- Emacs Variables ----
