@@ -8,13 +8,18 @@ include $(top_srcdir)/Makefile.am.common
 
 AM_CFLAGS=-I$(top_srcdir)/include @AM_CFLAGS@
 
-
-bin_PROGRAMS=test_monotonic_clock
-
-test_monotonic_clock_SOURCES=test_monotonic_clock.c monotonic_common.c
+# library
+noinst_LIBRARIES=libmonotonic_clock.a
+libmonotonic_clock_a_SOURCES=monotonic_common.c
 
 if HAVE_CLOCK_MONOTONIC
-test_monotonic_clock_SOURCES += monotonic_clock.c
+libmonotonic_clock_a_SOURCES += monotonic_clock.c
 else
-test_monotonic_clock_SOURCES += monotonic_generic.c
+libmonotonic_clock_a_SOURCES += monotonic_generic.c
 endif
+
+# test program
+noinst_PROGRAMS=test_monotonic_clock
+
+test_monotonic_clock_SOURCES=test_monotonic_clock.c
+test_monotonic_clock_LDADD=libmonotonic_clock.a
