@@ -3,3 +3,10 @@ Makefile
 *.o
 *~
 config.h
+autom4te.cache/
+src/.deps/
+*.in
+src/test_monotonic_clock
+stamp-h1
+config.log
+config.status
