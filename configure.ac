@@ -24,7 +24,7 @@ AC_SUBST([AM_LDFLAGS])
 
 # Checks for header files.
 AC_HEADER_STDC
-#AC_CHECK_HEADERS([stdlib.h])
+AC_CHECK_HEADERS([time.h sys/time.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST

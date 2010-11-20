@@ -7,10 +7,15 @@ AC_DEFUN([EL_CLOCK_MONOTONIC],
                    [
                      AC_TRY_RUN(
                                 [
+#ifdef HAVE_TIME_H
 #include <time.h>
+#endif
+#ifdef HAVE_SYS_TIME_H
+#include <sys/time.h>
+#endif
 int main() {
 struct timespec ts;
-exit(!!clock_gettime(CLOCK_MONOTONIC, &ts));
+return !!clock_gettime(CLOCK_MONOTONIC, &ts);
 }
                                 ],
                         [ ac_cv_have_clock_monotonic="yes"],
