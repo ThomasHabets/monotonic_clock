@@ -19,6 +19,7 @@
 # -*- Autoconf -*-
 # monotonic_clock/Makefile.am.common
 
+
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
@@ -37,9 +38,9 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(top_srcdir)/Makefile.am.common
-bin_PROGRAMS = test_monotonic_clock$(EXEEXT)
 @HAVE_CLOCK_MONOTONIC_TRUE@am__append_1 = monotonic_clock.c
 @HAVE_CLOCK_MONOTONIC_FALSE@am__append_2 = monotonic_generic.c
+noinst_PROGRAMS = test_monotonic_clock$(EXEEXT)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
@@ -49,18 +50,23 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)"
-binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
-PROGRAMS = $(bin_PROGRAMS)
-am__test_monotonic_clock_SOURCES_DIST = test_monotonic_clock.c \
-	monotonic_common.c monotonic_clock.c monotonic_generic.c
+LIBRARIES = $(noinst_LIBRARIES)
+AR = ar
+ARFLAGS = cru
+libmonotonic_clock_a_AR = $(AR) $(ARFLAGS)
+libmonotonic_clock_a_LIBADD =
+am__libmonotonic_clock_a_SOURCES_DIST = monotonic_common.c \
+	monotonic_clock.c monotonic_generic.c
 @HAVE_CLOCK_MONOTONIC_TRUE@am__objects_1 = monotonic_clock.$(OBJEXT)
 @HAVE_CLOCK_MONOTONIC_FALSE@am__objects_2 =  \
 @HAVE_CLOCK_MONOTONIC_FALSE@	monotonic_generic.$(OBJEXT)
-am_test_monotonic_clock_OBJECTS = test_monotonic_clock.$(OBJEXT) \
-	monotonic_common.$(OBJEXT) $(am__objects_1) $(am__objects_2)
+am_libmonotonic_clock_a_OBJECTS = monotonic_common.$(OBJEXT) \
+	$(am__objects_1) $(am__objects_2)
+libmonotonic_clock_a_OBJECTS = $(am_libmonotonic_clock_a_OBJECTS)
+PROGRAMS = $(noinst_PROGRAMS)
+am_test_monotonic_clock_OBJECTS = test_monotonic_clock.$(OBJEXT)
 test_monotonic_clock_OBJECTS = $(am_test_monotonic_clock_OBJECTS)
-test_monotonic_clock_LDADD = $(LDADD)
+test_monotonic_clock_DEPENDENCIES = libmonotonic_clock.a
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/config/depcomp
 am__depfiles_maybe = depfiles
@@ -68,8 +74,10 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(test_monotonic_clock_SOURCES)
-DIST_SOURCES = $(am__test_monotonic_clock_SOURCES_DIST)
+SOURCES = $(libmonotonic_clock_a_SOURCES) \
+	$(test_monotonic_clock_SOURCES)
+DIST_SOURCES = $(am__libmonotonic_clock_a_SOURCES_DIST) \
+	$(test_monotonic_clock_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -119,6 +127,7 @@ PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
@@ -169,8 +178,13 @@ top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
 CCFLAGS = -I$(top_srcdir)
 DISTCLEANFILES = *~
-test_monotonic_clock_SOURCES = test_monotonic_clock.c \
-	monotonic_common.c $(am__append_1) $(am__append_2)
+
+# library
+noinst_LIBRARIES = libmonotonic_clock.a
+libmonotonic_clock_a_SOURCES = monotonic_common.c $(am__append_1) \
+	$(am__append_2)
+test_monotonic_clock_SOURCES = test_monotonic_clock.c 
+test_monotonic_clock_LDADD = libmonotonic_clock.a
 all: all-am
 
 .SUFFIXES:
@@ -204,29 +218,16 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-install-binPROGRAMS: $(bin_PROGRAMS)
-	@$(NORMAL_INSTALL)
-	test -z "$(bindir)" || $(MKDIR_P) "$(DESTDIR)$(bindir)"
-	@list='$(bin_PROGRAMS)'; for p in $$list; do \
-	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
-	  if test -f $$p \
-	  ; then \
-	    f=`echo "$$p1" | sed 's,^.*/,,;$(transform);s/$$/$(EXEEXT)/'`; \
-	   echo " $(INSTALL_PROGRAM_ENV) $(binPROGRAMS_INSTALL) '$$p' '$(DESTDIR)$(bindir)/$$f'"; \
-	   $(INSTALL_PROGRAM_ENV) $(binPROGRAMS_INSTALL) "$$p" "$(DESTDIR)$(bindir)/$$f" || exit 1; \
-	  else :; fi; \
-	done
 
-uninstall-binPROGRAMS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(bin_PROGRAMS)'; for p in $$list; do \
-	  f=`echo "$$p" | sed 's,^.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
-	  echo " rm -f '$(DESTDIR)$(bindir)/$$f'"; \
-	  rm -f "$(DESTDIR)$(bindir)/$$f"; \
-	done
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+libmonotonic_clock.a: $(libmonotonic_clock_a_OBJECTS) $(libmonotonic_clock_a_DEPENDENCIES) 
+	-rm -f libmonotonic_clock.a
+	$(libmonotonic_clock_a_AR) libmonotonic_clock.a $(libmonotonic_clock_a_OBJECTS) $(libmonotonic_clock_a_LIBADD)
+	$(RANLIB) libmonotonic_clock.a
 
-clean-binPROGRAMS:
-	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+clean-noinstPROGRAMS:
+	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
 test_monotonic_clock$(EXEEXT): $(test_monotonic_clock_OBJECTS) $(test_monotonic_clock_DEPENDENCIES) 
 	@rm -f test_monotonic_clock$(EXEEXT)
 	$(LINK) $(test_monotonic_clock_OBJECTS) $(test_monotonic_clock_LDADD) $(LIBS)
@@ -331,11 +332,8 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(LIBRARIES) $(PROGRAMS)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)"; do \
-	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
-	done
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -363,7 +361,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
+clean-am: clean-generic clean-noinstLIBRARIES clean-noinstPROGRAMS \
+	mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -385,7 +384,7 @@ install-data-am:
 
 install-dvi: install-dvi-am
 
-install-exec-am: install-binPROGRAMS
+install-exec-am:
 
 install-html: install-html-am
 
@@ -416,14 +415,14 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS
+uninstall-am:
 
 .MAKE: install-am install-strip
 
-.PHONY: CTAGS GTAGS all all-am check check-am clean clean-binPROGRAMS \
-	clean-generic ctags distclean distclean-compile \
-	distclean-generic distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-binPROGRAMS \
+.PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
+	clean-noinstLIBRARIES clean-noinstPROGRAMS ctags distclean \
+	distclean-compile distclean-generic distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
 	install-data install-data-am install-dvi install-dvi-am \
 	install-exec install-exec-am install-html install-html-am \
 	install-info install-info-am install-man install-pdf \
@@ -431,7 +430,7 @@ uninstall-am: uninstall-binPROGRAMS
 	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-binPROGRAMS
+	uninstall-am
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
