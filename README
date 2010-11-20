@@ -1,0 +1,38 @@
+monotonic_clock/README
+
+  By Thomas Habets <thomas@habets.pp.se> 2010
+
+
+What
+----
+Provides access to a clock that always increases at the same rate.
+Unlike the system time (e.g. gettimeofday()) this will never decrease.
+
+However, if there's no monotonic clock on your system then this library
+will fall back to gettimeofday().
+
+For more information see:
+http://blog.habets.pp.se/2010/09/gettimeofday-should-never-be-used-to-measure-time
+
+
+Using monotonic_clock in a project
+----------------------------------
+cd /path/to/project
+git submodule add http://github.com/ThomasHabets/monotonic_clock.git
+git submodule init
+git submodule update
+
+Add to configure.ac:
+  AC_CONFIG_SUBDIRS([monotonic_clock])
+  AC_SEARCH_LIBS([clock_gettime], [rt])
+
+Add to Makefile.am:
+  SUBDIRS=monotonic_clock
+
+Add to src/Makefile.am:
+  AM_CFLAGS=-I$(top_srcdir)/monotonic_clock/include @AM_CFLAGS@
+  myproghere_LDADD=../monotonic_clock/src/libmonotonic_clock.a
+
+
+--------------------------------------------------------------------------
+Send questions/suggestions/patches/rants/0days to synscan@googlegroups.com
