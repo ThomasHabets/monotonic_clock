@@ -21,20 +21,15 @@ double
 clock_get_dbl_fallback()
 {
 #if HAVE_GETTIMEOFDAY
-	{
-		struct timeval tv;
-		if (0 == gettimeofday(&tv, NULL)) {
-			return tv.tv_sec + tv.tv_usec / 1000000.0;
-		}
-		if (/* DEBUG */ 0) {
-			fprintf(stderr,
-				"gettimeofday(): %s\n",
-				strerror(errno));
-		}
-	}
+        struct timeval tv;
+        if (0 == gettimeofday(&tv, NULL)) {
+                return tv.tv_sec + tv.tv_usec / 1000000.0;
+        }
+        if (/* DEBUG */ 0) {
+                fprintf(stderr, "gettimeofday(): %s\n", strerror(errno));
+        }
 #endif
-			
-	return (double)time(0);
+        return (double)time(0);
 }
 
 /* ---- Emacs Variables ----

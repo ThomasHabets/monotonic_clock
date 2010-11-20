@@ -15,9 +15,10 @@ AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_RANLIB
 
-# Checks for libraries.
+# Checks for library functions.
+AC_CHECK_FUNCS([gettimeofday])
 
-
+# enable subst
 AC_SUBST([AM_CFLAGS])
 AC_SUBST([AM_LDFLAGS])
 

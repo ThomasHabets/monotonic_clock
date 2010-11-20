@@ -10,6 +10,9 @@
 extern "C" {
 #endif
 
+extern const char* monotonic_clock_name;
+
+int    monotonic_clock_is_monotonic();
 double clock_get_dbl();
 double clock_get_dbl_fallback();
 

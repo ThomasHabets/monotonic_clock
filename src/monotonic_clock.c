@@ -16,6 +16,22 @@
 
 #include"monotonic_clock.h"
 
+const char* monotonic_clock_name      = "clock_gettime";
+
+/**
+ * return 1 if clock is actually monotonic, otherwise return 0
+ */
+int
+monotonic_clock_is_monotonic()
+{
+        struct timespec ts;
+
+        if (clock_gettime(CLOCK_MONOTONIC, &ts)) {
+                return 0;
+        }
+        return 1;
+}
+
 /**
  *
  */

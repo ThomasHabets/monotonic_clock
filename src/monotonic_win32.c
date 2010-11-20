@@ -11,8 +11,24 @@
 #include "config.h"
 #endif
 
+const char* monotonic_clock_name      = "QueryPerformanceCounter";
+
 /**
- *
+ * return 1 if clock is actually monotonic, otherwise return 0
+ */
+int
+monotonic_clock_is_monotonic()
+{
+        LARGE_INTEGER t;
+        if (!QueryPerformanceCounter(&t)
+            || !QueryPerformanceFrequency(&t)) {
+                return 0;
+        }
+        return 1;
+}
+
+/**
+ * FIXME: thread safe
  */
 double
 clock_get_dbl()
@@ -26,7 +42,7 @@ clock_get_dbl()
 	BOOL ret = QueryPerformanceCounter(&count);
 
 	if (ret == 0) {
-		return (double)time(0);
+                return clock_get_dbl_fallback();
 	}
 
 	if (scale_factor == 0.0) {

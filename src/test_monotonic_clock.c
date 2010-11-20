@@ -20,9 +20,19 @@
 int
 main()
 {
-	printf("%f\n", clock_get_dbl());
-	sleep(1);
-	printf("%f\n", clock_get_dbl());
+        printf("Name: %s, is monotonic: %s\n",
+               monotonic_clock_name,
+               monotonic_clock_is_monotonic() ? "yes" : "no");
+        printf("start: %f\n", clock_get_dbl());
+        sleep(1);
+        printf("stop:  %f\n", clock_get_dbl());
 
-	return 0;
+        return 0;
 }
+
+/* ---- Emacs Variables ----
+ * Local Variables:
+ * c-basic-offset: 8
+ * indent-tabs-mode: nil
+ * End:
+ */

@@ -13,23 +13,37 @@
 
 #include"monotonic_clock.h"
 
+const char* monotonic_clock_name      = "mach_absolute_time";
+
 /**
- *
+ * return 1 if clock is actually monotonic, otherwise return 0
+ */
+int
+monotonic_clock_is_monotonic()
+{
+        mach_timebase_info_data_t info;
+        if (mach_timebase_info(&info)) {
+                return 0;
+        }
+        return 1;
+}
+
+/**
+ * FIXME: thread safe?
  */
 double
 clock_get_dbl()
 {
-	struct timeval;
 	u64 time = mach_absolute_time();
-
 	static u64 scaling_factor = 0;
+
 	if (!scaling_factor) {
 		mach_timebase_info_data_t info;
 		kern_return_t ret = mach_timebase_info(&info);
 		if (ret != 0) {
 			if (/* DEBUG */ 0) {
 				fprintf(stderr,
-					"mach_timebase_info failed: %d",
+					"mach_timebase_info() failed: %d",
 					ret);
 			}
 
@@ -39,3 +53,10 @@ clock_get_dbl()
 	}
 	return time * scaling_factor;
 }
+
+/* ---- Emacs Variables ----
+ * Local Variables:
+ * c-basic-offset: 8
+ * indent-tabs-mode: nil
+ * End:
+ */
