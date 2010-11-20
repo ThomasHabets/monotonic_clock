@@ -183,7 +183,7 @@ DISTCLEANFILES = *~
 noinst_LIBRARIES = libmonotonic_clock.a
 libmonotonic_clock_a_SOURCES = monotonic_common.c $(am__append_1) \
 	$(am__append_2)
-test_monotonic_clock_SOURCES = test_monotonic_clock.c 
+test_monotonic_clock_SOURCES = test_monotonic_clock.c
 test_monotonic_clock_LDADD = libmonotonic_clock.a
 all: all-am
 
