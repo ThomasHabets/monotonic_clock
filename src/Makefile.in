@@ -53,12 +53,12 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am__test_monotonic_clock_SOURCES_DIST = test_monotonic_clock.c \
-	monotonic_fallback.c monotonic_clock.c monotonic_generic.c
+	monotonic_common.c monotonic_clock.c monotonic_generic.c
 @HAVE_CLOCK_MONOTONIC_TRUE@am__objects_1 = monotonic_clock.$(OBJEXT)
 @HAVE_CLOCK_MONOTONIC_FALSE@am__objects_2 =  \
 @HAVE_CLOCK_MONOTONIC_FALSE@	monotonic_generic.$(OBJEXT)
 am_test_monotonic_clock_OBJECTS = test_monotonic_clock.$(OBJEXT) \
-	monotonic_fallback.$(OBJEXT) $(am__objects_1) $(am__objects_2)
+	monotonic_common.$(OBJEXT) $(am__objects_1) $(am__objects_2)
 test_monotonic_clock_OBJECTS = $(am_test_monotonic_clock_OBJECTS)
 test_monotonic_clock_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -170,7 +170,7 @@ AUTOMAKE_OPTIONS = foreign
 CCFLAGS = -I$(top_srcdir)
 DISTCLEANFILES = *~
 test_monotonic_clock_SOURCES = test_monotonic_clock.c \
-	monotonic_fallback.c $(am__append_1) $(am__append_2)
+	monotonic_common.c $(am__append_1) $(am__append_2)
 all: all-am
 
 .SUFFIXES:
@@ -238,7 +238,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/monotonic_clock.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/monotonic_fallback.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/monotonic_common.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/monotonic_generic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_monotonic_clock.Po@am__quote@
 

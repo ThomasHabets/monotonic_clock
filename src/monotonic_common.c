@@ -1,8 +1,7 @@
-/** monotonic_clock/src/monotonic_generic.c
+/** monotonic_clock/src/monotonic_common.c
  *
  *  By Thomas Habets <thomas@habets.pp.se> 2010
  *
- * get clock from gettimeofday() as if it were monotonic
  */
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -16,7 +15,7 @@
 #include"monotonic_clock.h"
 
 /**
- *
+ * get clock from gettimeofday() or even time() as if it were monotonic
  */
 double
 clock_get_dbl_fallback()

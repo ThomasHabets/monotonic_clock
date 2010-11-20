@@ -2,7 +2,7 @@
  *
  *  By Thomas Habets <thomas@habets.pp.se> 2010
  *
- * get clock from gettimeofday() as if it were monotonic
+ *
  */
 #ifdef HAVE_CONFIG_H
 #include "config.h"
