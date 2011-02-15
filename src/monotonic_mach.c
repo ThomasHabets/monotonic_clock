@@ -1,19 +1,20 @@
-/** monotonic_clock/src/monotonic_win32.c
+/** monotonic_clock/src/monotonic_mach.c
  *
  *  By Thomas Habets <thomas@habets.pp.se> 2010
  *
- * Copied from:
+ * Adapted from:
  * http://code-factor.blogspot.com/2009/11/monotonic-timers.html
- *
- * Untested
  */
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
+#include<stdio.h>
+#include<mach/mach_time.h>
+
 #include"monotonic_clock.h"
 
-const char* monotonic_clock_name      = "mach_absolute_time";
+const char* monotonic_clock_name = "mach_absolute_time";
 
 /**
  * return 1 if clock is actually monotonic, otherwise return 0
@@ -34,10 +35,10 @@ monotonic_clock_is_monotonic()
 double
 clock_get_dbl()
 {
-	u64 time = mach_absolute_time();
-	static u64 scaling_factor = 0;
+        uint64_t time = mach_absolute_time();
+        static double scaling_factor = 0;
 
-	if (!scaling_factor) {
+        if (scaling_factor == 0) {
 		mach_timebase_info_data_t info;
 		kern_return_t ret = mach_timebase_info(&info);
 		if (ret != 0) {
@@ -49,9 +50,9 @@ clock_get_dbl()
 
 			return clock_get_dbl_fallback();
 		}
-		scaling_factor = info.numer / info.denom;
+                scaling_factor = (double)info.numer / (double)info.denom;
 	}
-	return time * scaling_factor;
+        return (double)time * scaling_factor / 1000000000.0;
 }
 
 /* ---- Emacs Variables ----
