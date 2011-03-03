@@ -12,9 +12,15 @@ AM_CFLAGS=-I$(top_srcdir)/include @AM_CFLAGS@
 noinst_LIBRARIES=libmonotonic_clock.a
 libmonotonic_clock_a_SOURCES=monotonic_common.c
 
-if HAVE_CLOCK_MONOTONIC
+if SRC_MONOTONIC_CLOCK
 libmonotonic_clock_a_SOURCES += monotonic_clock.c
-else
+endif
+
+if SRC_MONOTONIC_MACH
+libmonotonic_clock_a_SOURCES += monotonic_mach.c
+endif
+
+if SRC_MONOTONIC_GENERIC
 libmonotonic_clock_a_SOURCES += monotonic_generic.c
 endif
 
