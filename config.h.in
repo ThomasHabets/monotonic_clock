@@ -9,6 +9,9 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
+/* Define to 1 if you have the `mach_absolute_time' function. */
+#undef HAVE_MACH_ABSOLUTE_TIME
+
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
@@ -54,6 +57,9 @@
 /* Define to the one symbol short name of this package. */
 #undef PACKAGE_TARNAME
 
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
@@ -64,7 +70,7 @@
 #undef VERSION
 
 /* Define for Solaris 2.5.1 so the uint32_t typedef from <sys/synch.h>,
-   <pthread.h>, or <semaphore.h> is not used. If the typedef was allowed, the
+   <pthread.h>, or <semaphore.h> is not used. If the typedef were allowed, the
    #define below would cause a syntax error. */
 #undef _UINT32_T
 
