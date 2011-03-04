@@ -22,6 +22,7 @@ Verified to be working:
 Linux        clock_gettime()
 OpenBSD      clock_gettime()
 Solaris      clock_gettime()
+MacOS X      mach_absolute_time()
 
 
 Using monotonic_clock in a project
