@@ -3,9 +3,9 @@
 #
 
 AC_PREREQ(2.61)
-AC_INIT([monotonic_clock], [0.01], [thomas@habets.pp.se])
+AC_INIT([monotonic_clock], [0.01], [thomas@habets.se])
 AC_CONFIG_AUX_DIR([config])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([foreign silent-rules subdir-objects])
 AM_MAINTAINER_MODE
 AC_CONFIG_SRCDIR([src/monotonic_clock.c])
 AC_CONFIG_HEADER(config.h)
@@ -34,17 +34,20 @@ AC_TYPE_UINT32_T
 
 EL_CLOCK_MONOTONIC
 
-if test x$ac_cv_have_clock_monotonic = xyes; then
-   portability=getclock
-elif test x$ac_cv_func_mach_absolute_time = xyes; then
-   portability=mach
-else
-   portability=generic
-fi
+AS_IF(
+      [test x$ac_cv_have_clock_monotonic = xyes],
+      [portability=getclock],
 
-AM_CONDITIONAL([SRC_MONOTONIC_CLOCK], [test x$portability = xgetclock ])
-AM_CONDITIONAL([SRC_MONOTONIC_MACH], [test x$portability = xmach ])
-AM_CONDITIONAL([SRC_MONOTONIC_GENERIC], [test x$portability = xgeneic ])
+      [test x$ac_cv_func_mach_absolute_time = xyes],
+      [portability=mach],
+
+      [portability=generic]
+)
+
+# AS_CASE([$portability],
+AM_CONDITIONAL([SRC_MONOTONIC_CLOCK],   [test x$portability = xgetclock])
+AM_CONDITIONAL([SRC_MONOTONIC_MACH],    [test x$portability = xmach])
+AM_CONDITIONAL([SRC_MONOTONIC_GENERIC], [test x$portability = xgeneric])
 
 AC_SUBST([SRC_MONOTONIC_CLOCK])
 AC_SUBST([SRC_MONOTONIC_MACH])

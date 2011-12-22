@@ -1,9 +1,6 @@
 # -*- Autoconf -*-
 # monotonic_clock/Makefile.am.common
 
-# Don't complain about "missing" standard GNU files
-AUTOMAKE_OPTIONS = foreign
-
 CCFLAGS=-I$(top_srcdir)
 
 DISTCLEANFILES = *~
