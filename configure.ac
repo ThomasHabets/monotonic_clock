@@ -54,7 +54,7 @@ AC_SUBST([SRC_MONOTONIC_MACH])
 AC_SUBST([SRC_MONOTONIC_GENERIC])
 
 # Output
-AC_CONFIG_FILES([Makefile src/Makefile])
+AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 
 echo "
