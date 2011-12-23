@@ -34,3 +34,4 @@ mrproper: maintainer-clean
 	rm -f debian/substvars debian/files
 	rm -fr debian/tmp
 	rm -f config/install-sh config/missing config/depcomp
+	rm -fr config m4 libltdl
