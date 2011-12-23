@@ -25,7 +25,7 @@ endif
 noinst_PROGRAMS=test_monotonic_clock
 
 test_monotonic_clock_SOURCES=src/test_monotonic_clock.c
-test_monotonic_clock_LDADD=libmonotonic_clock.a
+test_monotonic_clock_LDADD=libmonotonic_clock.la
 
 mrproper: maintainer-clean
 	rm -f aclocal.m4 configure.scan depcomp missing install-sh config.h.in
