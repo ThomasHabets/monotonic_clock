@@ -5,15 +5,21 @@
 AC_PREREQ(2.61)
 AC_INIT([monotonic_clock], [0.01], [thomas@habets.se])
 AC_CONFIG_AUX_DIR([config])
-AM_INIT_AUTOMAKE([foreign silent-rules subdir-objects])
+
+AM_INIT_AUTOMAKE([foreign subdir-objects])
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES])
 AM_MAINTAINER_MODE
+
+LT_INIT([dlopen])
+#LT_CONFIG_LTDL_DIR([libltdl])
+AC_CONFIG_MACRO_DIR([m4])
+
 AC_CONFIG_SRCDIR([src/monotonic_clock.c])
 AC_CONFIG_HEADER(config.h)
 
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_INSTALL
-AC_PROG_RANLIB
 
 # Checks for library functions.
 AC_CHECK_FUNCS([gettimeofday mach_absolute_time])
