@@ -60,7 +60,7 @@ AC_SUBST([SRC_MONOTONIC_MACH])
 AC_SUBST([SRC_MONOTONIC_GENERIC])
 
 # Output
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile libmonotonic_clock.pc])
 AC_OUTPUT
 
 echo "

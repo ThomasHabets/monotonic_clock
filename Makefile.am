@@ -8,6 +8,10 @@ AM_CFLAGS=-I$(top_srcdir)/include @AM_CFLAGS@
 # library
 lib_LTLIBRARIES=libmonotonic_clock.la
 libmonotonic_clock_la_SOURCES=src/monotonic_common.c
+libmonotonic_clock_la_LDFLAGS = -version-info 0:0:0
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = libmonotonic_clock.pc
 
 if SRC_MONOTONIC_CLOCK
 libmonotonic_clock_la_SOURCES += src/monotonic_clock.c
