@@ -11,6 +11,9 @@
 #include "config.h"
 #endif
 
+#include <Windows.h>
+#include <stdio.h>
+
 const char* monotonic_clock_name      = "QueryPerformanceCounter";
 
 /**
@@ -35,9 +38,6 @@ clock_get_dbl()
 {
 	static double scale_factor;
 
-	static u32 hi = 0;
-	static u32 lo = 0;
-
 	LARGE_INTEGER count;
 	BOOL ret = QueryPerformanceCounter(&count);
 
@@ -57,18 +57,7 @@ clock_get_dbl()
 		scale_factor = (1000000000.0 / frequency.QuadPart);
 	}
 
-#ifdef FACTOR_64
-	hi = count.HighPart;
-#else
-	/* On VirtualBox, QueryPerformanceCounter does not increment
-	   the high part every time the low part overflows.  Workaround. */
-	if(lo > count.LowPart) {
-		hi++;
-	}
-#endif
-	lo = count.LowPart;
-
-	return (u64)((((u64)hi << 32) | (u64)lo) * scale_factor);
+	return count.QuadPart * scale_factor;
 }
 
 /* ---- Emacs Variables ----
