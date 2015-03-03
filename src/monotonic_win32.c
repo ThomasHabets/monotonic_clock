@@ -54,7 +54,7 @@ clock_get_dbl()
 			}
 			return clock_get_dbl_fallback();
 		}
-		scale_factor = (1000000000.0 / frequency.QuadPart);
+		scale_factor = 1.0 / frequency.QuadPart;
 	}
 
 	return count.QuadPart * scale_factor;
