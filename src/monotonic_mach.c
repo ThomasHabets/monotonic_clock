@@ -1,6 +1,6 @@
 /** monotonic_clock/src/monotonic_mach.c
  *
- *  By Thomas Habets <thomas@habets.pp.se> 2010
+ *  By Thomas Habets <thomas@habets.se> 2010
  *
  * Adapted from:
  * http://code-factor.blogspot.com/2009/11/monotonic-timers.html
@@ -9,8 +9,21 @@
 #include "config.h"
 #endif
 
+
 #include<stdio.h>
 #include<mach/mach_time.h>
+
+#ifdef HAVE_STDINT_H
+#include<stdint.h>
+#endif
+
+#ifdef HAVE_INTTYPES_H
+#include<inttypes.h>
+#endif
+
+#ifdef HAVE_SYS_STDINT_H
+#include<sys/int_types.h>
+#endif
 
 #include"monotonic_clock.h"
 
@@ -30,12 +43,22 @@ monotonic_clock_is_monotonic()
 }
 
 /**
- * FIXME: thread safe?
+ *
  */
 double
 clock_get_dbl()
 {
-        uint64_t time = mach_absolute_time();
+        return (double)clock_get_uint64(0) / 1000000000.0;
+}
+
+
+/**
+ * FIXME: Make thread safe on initial call.
+ */
+uint64_t
+clock_get_uint64(int flags)
+{
+        uint64_t t = mach_absolute_time();
         static double scaling_factor = 0;
 
         if (scaling_factor == 0) {
@@ -52,7 +75,7 @@ clock_get_dbl()
 		}
                 scaling_factor = (double)info.numer / (double)info.denom;
 	}
-        return (double)time * scaling_factor / 1000000000.0;
+        return t * scaling_factor;
 }
 
 /* ---- Emacs Variables ----

@@ -1,6 +1,6 @@
 /** monotonic_clock/src/test_monotonic_clock.c
  *
- *  By Thomas Habets <thomas@habets.pp.se> 2010
+ *  By Thomas Habets <thomas@habets.se> 2010
  *
  */
 #ifdef HAVE_CONFIG_H
@@ -11,6 +11,18 @@
 #include<string.h>
 #include<errno.h>
 #include<sys/time.h>
+
+#ifdef HAVE_STDINT_H
+#include<stdint.h>
+#endif
+
+#ifdef HAVE_INTTYPES_H
+#include<inttypes.h>
+#endif
+
+#ifdef HAVE_SYS_STDINT_H
+#include<sys/int_types.h>
+#endif
 
 #include"monotonic_clock.h"
 

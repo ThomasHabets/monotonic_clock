@@ -30,13 +30,14 @@ AC_SUBST([AM_LDFLAGS])
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([time.h sys/time.h])
+AC_CHECK_HEADERS([time.h sys/time.h stdint.h inttypes.h sys/int_types.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 #AC_HEADER_TIME
 AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
+AC_TYPE_UINT64_T
 
 EL_CLOCK_MONOTONIC
 
