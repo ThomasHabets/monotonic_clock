@@ -1,6 +1,6 @@
 monotonic_clock/README
 
-  By Thomas Habets <thomas@habets.pp.se> 2010
+  By Thomas Habets <thomas@habets.se> 2010
 
 
 What
@@ -12,7 +12,7 @@ However, if there's no monotonic clock on your system then this library
 will fall back to gettimeofday().
 
 For more information see:
-http://blog.habets.pp.se/2010/09/gettimeofday-should-never-be-used-to-measure-time
+https://blog.habets.se/2010/09/gettimeofday-should-never-be-used-to-measure-time.html
 
 
 Portability
