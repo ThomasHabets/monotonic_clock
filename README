@@ -27,22 +27,35 @@ MacOS X      mach_absolute_time()
 
 Using monotonic_clock in a project
 ----------------------------------
+You can either install it like a normal shared library:
+
+```
+./configure
+make
+sudo make install
+```
+
+Or import it into your project as a git submodule:
+
+```
 cd /path/to/project
-git submodule add http://github.com/ThomasHabets/monotonic_clock.git
+git submodule add https://github.com/ThomasHabets/monotonic_clock.git
 git submodule init
 git submodule update
+```
 
 Add to configure.ac:
+```
   AC_CONFIG_SUBDIRS([monotonic_clock])
   AC_SEARCH_LIBS([clock_gettime], [rt])
+```
 
 Add to Makefile.am:
+```
   SUBDIRS=monotonic_clock
-
-Add to src/Makefile.am:
-  AM_CFLAGS=-I$(top_srcdir)/monotonic_clock/include @AM_CFLAGS@
-  myproghere_LDADD=../monotonic_clock/src/libmonotonic_clock.a
-
+  AM_CFLAGS=-I$(top_builddir)/monotonic_clock/include @AM_CFLAGS@
+  myproghere_LDADD=$(top_builddir)/monotonic_clock/.libs/libmonotonic_clock.a
+```
 
 --------------------------------------------------------------------------
 Send questions/suggestions/patches/rants/0days to synscan@googlegroups.com
