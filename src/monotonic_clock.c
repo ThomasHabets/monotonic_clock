@@ -29,9 +29,9 @@
 #include"monotonic_clock.h"
 
 #ifdef CLOCK_MONOTONIC_RAW
-static const preferred_raw = CLOCK_MONOTONIC_RAW;
+static const int preferred_raw = CLOCK_MONOTONIC_RAW;
 #else
-static const preferred_raw = CLOCK_MONOTONIC;
+static const int preferred_raw = CLOCK_MONOTONIC;
 #endif
 
 const char* monotonic_clock_name      = "clock_gettime";
